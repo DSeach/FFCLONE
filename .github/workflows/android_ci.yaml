@@ -1,19 +1,19 @@
 name: Android Unit Tests
 
-# Trigger on pushes or PRs to main or branches starting with feat, fix, test
 on:
   push:
     branches:
-      - main
-      - 'feat*'
-      - 'fix*'
-      - 'test*'
+      - master
+      - 'feat/*'
+      - 'fix/*'
+      - 'test/*'
   pull_request:
     branches:
-      - main
-      - 'feat*'
-      - 'fix*'
-      - 'test*'
+      - master
+      - 'feat/*'
+      - 'fix/*'
+      - 'test/*'
+  workflow_dispatch:   # allows manual triggering
 
 jobs:
   unit-tests:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
+      # 1. Checkout code
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -32,7 +32,7 @@ jobs:
           distribution: temurin
           java-version: 11
 
-      # 3. Cache Gradle dependencies for faster builds
+      # 3. Cache Gradle dependencies
       - name: Cache Gradle
         uses: actions/cache@v3
         with:
@@ -47,6 +47,13 @@ jobs:
       - name: Grant execute permission
         run: chmod +x ./gradlew
 
-      # 5. Run all unit tests
+      # 5. Run all unit tests with JUnit XML reports
       - name: Run Unit Tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew testDebugUnitTest --tests "*" --info
+
+      # 6. Upload test reports as artifact
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-reports
+          path: app/build/test-results/testDebugUnitTest/
