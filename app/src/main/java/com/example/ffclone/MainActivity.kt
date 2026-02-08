@@ -5,18 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
+import androidx.compose.ui.unit.dp
 import com.example.ffclone.game.GameState
 import com.example.ffclone.game.GameViewModel
-import com.example.ffclone.ui.theme.FFCLONETheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ffclone.ui.OverworldControls
+import com.example.ffclone.ui.OverworldScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,15 +31,16 @@ class MainActivity : ComponentActivity() {
 
             when(viewModel.gameState.value){
                 GameState.OVERWORLD -> {
-                    Box(
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxSize()
-                            .clickable{
-                            viewModel.enterBattle()
-                        },
-                        contentAlignment = Alignment.Center
-                    )
-                    {
-                        Text(text = "Overworld (tap to battle!)")
+                    ) {
+
+                        OverworldScreen(viewModel, modifier = Modifier.fillMaxWidth().weight(1f))
+                        Spacer(modifier = Modifier.height(2.dp))
+                        OverworldControls(viewModel)
+
                     }
                 }
 
@@ -57,21 +62,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FFCLONETheme {
-        Greeting("Android")
     }
 }
