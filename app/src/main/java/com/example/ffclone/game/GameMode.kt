@@ -1,6 +1,6 @@
 package com.example.ffclone.game
 
-enum class GameState {
+enum class GameMode {
     OVERWORLD,
     BATTLE,
     DIALOGUE
