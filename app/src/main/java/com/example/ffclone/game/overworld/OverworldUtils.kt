@@ -25,8 +25,21 @@ fun updateOverworldStateAfterMove(
     }
     val collidedEnemy = checkEnemyCollision(newPlayer.position, current.enemies)
     return if (collidedEnemy != null) {
-        GameScreenState.BATTLE(player = newPlayer, enemies = listOf(collidedEnemy), map = current.map)
+        GameScreenState.BATTLE(
+            player = newPlayer,
+            enemies = listOf(collidedEnemy),
+            map = current.map,
+            remainingOverworldEnemies = current.enemies.filter { it.id != collidedEnemy.id }
+        )
     } else {
         current.copy(player = newPlayer)
     }
+}
+
+fun returnToOverworld(battle: GameScreenState.BATTLE): GameScreenState.OVERWORLD {
+    return GameScreenState.OVERWORLD(
+        map = battle.map,
+        player = battle.player,
+        enemies = battle.remainingOverworldEnemies
+    )
 }

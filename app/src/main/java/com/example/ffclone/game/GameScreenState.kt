@@ -13,7 +13,8 @@ sealed class GameScreenState {
         val player: Player,
         val enemies: List<Enemy>,
         val selectedMenuIndex: Int = 0,
-        val map: GameMap
+        val map: GameMap,
+        val remainingOverworldEnemies: List<Enemy> = emptyList()
     ) : GameScreenState()
 
     data class DIALOGUE(

@@ -39,12 +39,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     fun exitBattle(){
         val current = state.value
         if (current is GameScreenState.BATTLE) {
-            state.value = GameScreenState.OVERWORLD(
-                player = current.player,
-                enemies = emptyList(),
-                map = current.map
-
-            )
+            state.value = returnToOverworld(current)
         }
     }
 }
