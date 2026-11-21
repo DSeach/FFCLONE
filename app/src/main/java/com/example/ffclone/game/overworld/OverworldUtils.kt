@@ -20,6 +20,9 @@ fun updateOverworldStateAfterMove(
     current: GameScreenState.OVERWORLD,
     newPlayer: Player
 ): GameScreenState {
+    if (current.map.tileAt(newPlayer.position.x, newPlayer.position.y) == TileType.WALL) {
+        return current
+    }
     val collidedEnemy = checkEnemyCollision(newPlayer.position, current.enemies)
     return if (collidedEnemy != null) {
         GameScreenState.BATTLE(player = newPlayer, enemies = listOf(collidedEnemy), map = current.map)
