@@ -19,7 +19,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     fun loadOverworld(fileName: String, playerStart: GridPosition): GameScreenState.OVERWORLD {
         val map = readMapFromAsset(fileName, getApplication()) // appContext must be supplied
         val player = Player(position = playerStart)
-        val enemies = emptyList<Enemy>()
+        val enemies = EnemySpawner().spawn(map, playerStart)
         return GameScreenState.OVERWORLD(
             map = map,
             player = player,
