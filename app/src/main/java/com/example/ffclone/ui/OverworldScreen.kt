@@ -12,7 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.ffclone.game.Constants
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import com.example.ffclone.game.GameScreenState
 import com.example.ffclone.game.overworld.TileType
 
@@ -24,8 +25,8 @@ fun OverworldScreen(state: GameScreenState.OVERWORLD, modifier: Modifier = Modif
 
     BoxWithConstraints(modifier = modifier) {
 
-        val scope = this
-        val cellSize = maxWidth / Constants.Grid.GRID_WIDTH
+        val cellSizePixels = minOf(constraints.maxWidth / map.width, constraints.maxHeight / map.height)
+        val cellSize = with(LocalDensity.current) { cellSizePixels.toDp() }
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,6 +48,7 @@ fun OverworldScreen(state: GameScreenState.OVERWORLD, modifier: Modifier = Modif
 
                             modifier = Modifier
                                 .size(cellSize)
+                                .testTag("tile-$x-$y")
                                 .background(color)
                         )
                     }
